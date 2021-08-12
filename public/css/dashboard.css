@@ -133,9 +133,22 @@ p {
   width: 300px;
   margin-bottom: 0;
 }
+.pcHistory{
+  width: 350px;
+}
 .amount{
   width: 100px;
   margin-bottom: 0;
+}
+.green{
+  font-size: 20px;
+  margin-bottom: 0;
+  background-color: #BCFFB9;
+}
+.red{
+  font-size: 20px;
+  margin-bottom: 0;
+  background-color: #FF616D;
 }
 .checkbox{
   margin-left: 3%;
@@ -149,6 +162,17 @@ p {
   border-bottom: 1px solid #F1F1F1;
   background-color: white;
   width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.item-final-history{
+  height: 70px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #F1F1F1;
+  background-color: white;
+  width: 50%;
   margin-left: auto;
   margin-right: auto;
 }

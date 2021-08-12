@@ -42,30 +42,27 @@
 
   <section id="accountings">
     <div id="heading" class="box less-pad">
-      <h1 class="head ">Bargaining Corner</h1>
+      <h1 class="head "> History of Transactions </h1>
     </div>
 
     <div class="container-fluid" style="padding-left:5%;padding-right:5%">
       <div class="row">
-        <div class="col-lg-6">
-          <div class="box acc-box item-1" id="heading">
-            <h1 class="head"> Accept Discount Request </h1>
-          </div>
-
-
-
+        <div class="col-lg-12">
 
           <div >
             <%let count = -1;%>
-            <% oldListItems.forEach(function(item){%>
+            <% listItems.forEach(function(item){%>
               <%count++;%>
             <form class="" action="/modify" method="post">
-              <div class="item-final item-1">
-                <input class="checkbox" type="checkbox" name="list" value="0<%= item.username %>" onChange="this.form.submit()">
+              <div class="item-final-history">
                 <p class="username"> <%= item.username %></p>
-                <p class="paymentContext"> <%= item.paymentContext %></p>
+                <p class="paymentContext pcHistory"> <%= item.paymentContext %></p>
                 <p class="amount"> <%= item.amount %> </p>
-                <button class="acc-btn" type="submit" name="list" value="1<%= item.username %>">&#10003;</button>
+                <%if (item.flag === 1) { %>
+                <p class="green">&uarr;</p>
+                <% }else { %>
+                <p class="red">&darr;</p>
+                <%}%>
               </div>
               <input type="hidden" name="action" value="pay">
               <input type="hidden" name="count" value="<%= count %>">
@@ -73,49 +70,6 @@
             <% })  %>
 
           </div>
-
-
-
-        </div>
-        <div class="col-lg-6">
-          <div class="box acc-box item-2" id="heading">
-            <h1 class="head"> Register Discount Request </h1>
-          </div>
-
-          <div >
-            <%let coun = -1;%>
-            <% newListItems.forEach(function(item){%>
-              <%coun++;%>
-            <form action="/delete" method="post">
-              <div class="item-final item-2">
-                <p class="username"> <%= item.username %></p>
-                <p class="paymentContext"> <%= item.paymentContext %></p>
-                <p class="amount"> <%= item.amount %> </p>
-              </div>
-              <input type="hidden" name="action" value="recieve">
-              <input type="hidden" name="count" value="<%= coun %>">
-            </form>
-            <% })  %>
-
-
-
-
-            <form class="pad" action="/discount" method="post">
-              <div class="item item-2">
-                  <input type="text" name="username" value="" placeholder="Username">
-                  <input type="text" name="amount" value="" placeholder="Amount" autocomplete="off">
-              </div>
-              <div class="item item-2">
-                <input type="text" name="paymentContext" placeholder="Payment Context" autocomplete="off">
-                <button class="acc-btn" type="submit" name="list" value="request">+</button>
-              </div>
-
-            </form>
-
-          </div>
-
-
-
 
 
 

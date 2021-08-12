@@ -34,7 +34,8 @@ const itemsSchema = new mongoose.Schema({
   username:String,
   paymentContext:String,
   uniqueID:String,
-  amount:Number
+  amount:Number,
+  flag:Number
 })
 
 const Item = mongoose.model("Item",itemsSchema);
@@ -45,7 +46,8 @@ const userSchema = new mongoose.Schema({
   pay:[itemsSchema],
   recieve:[itemsSchema],
   acceptDiscount:[itemsSchema],
-  requestDiscount:[itemsSchema]
+  requestDiscount:[itemsSchema],
+  history:[itemsSchema]
 })
 
 userSchema.plugin(passportLocalMongoose);
@@ -106,6 +108,22 @@ app.get("/discount",function(req,res){
   }
 })
 
+app.get("/history",function(req,res){
+  username = req.user.username;
+
+  if(req.isAuthenticated()){
+    User.findOne({username:req.user.username},function(err,foundList){
+
+      res.render("history",{listItems:foundList.history});
+
+      })
+  }
+  else{
+    res.redirect("/Sign-in");
+  }
+})
+
+
 app.post("/Sign-in",function(req,res,next){
 
   const user = new User({
@@ -142,11 +160,20 @@ app.post("/dashboard",function(req, res){
   let flag = 1;
   const id=req.user._id;
   const unique = uuidv4();
-  let tempitem = new Item({
+  let tempitem1 = new Item({
     username:req.body.username,
     paymentContext:req.body.paymentContext,
     uniqueID:unique,
-    amount:req.body.amount
+    amount:req.body.amount,
+    flag:-1
+  })
+
+  let tempitem2 = new Item({
+    username:req.body.username,
+    paymentContext:req.body.paymentContext,
+    uniqueID:unique,
+    amount:req.body.amount,
+    flag:1
   })
 
   const store = req.body.list;
@@ -159,9 +186,11 @@ app.post("/dashboard",function(req, res){
               username:foundLis.username,
               paymentContext:req.body.paymentContext,
               uniqueID:unique,
-              amount:req.body.amount
+              amount:req.body.amount,
+              flag:1
             })
             foundList.recieve.push(tempitem);
+            foundList.history.unshift(tempitem);
             foundList.save();
           })
 
@@ -176,7 +205,8 @@ app.post("/dashboard",function(req, res){
         User.findOne({username:req.user.username},function(err,foundList){
           if(foundList){
             if(foundList.length != 0){
-              foundList.pay.push(tempitem);
+              foundList.pay.push(tempitem1);
+              foundList.history.unshift(tempitem1);
               foundList.save();
             }
           }
@@ -195,9 +225,11 @@ app.post("/dashboard",function(req, res){
               username:foundLis.username,
               paymentContext:req.body.paymentContext,
               uniqueID:unique,
-              amount:req.body.amount
+              amount:req.body.amount,
+              flag:-1
             })
             foundList.pay.push(tempitem);
+            foundList.history.unshift(tempitem);
             foundList.save();
           })
 
@@ -211,7 +243,9 @@ app.post("/dashboard",function(req, res){
     User.findOne({_id:id},function(err,foundList){
       if(foundList){
         if(foundList.length != 0){
-          foundList.recieve.push(tempitem);
+
+          foundList.recieve.push(tempitem2);
+          foundList.history.unshift(tempitem2);
           foundList.save();
         }
       }
