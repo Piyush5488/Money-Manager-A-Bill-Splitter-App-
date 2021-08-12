@@ -43,7 +43,9 @@ const userSchema = new mongoose.Schema({
   username: String,
   password: String,
   pay:[itemsSchema],
-  recieve:[itemsSchema]
+  recieve:[itemsSchema],
+  acceptDiscount:[itemsSchema],
+  requestDiscount:[itemsSchema]
 })
 
 userSchema.plugin(passportLocalMongoose);
@@ -87,6 +89,21 @@ app.get("/Log-out",function(req, res){
 let user_arr = [];
 app.get("/Split", function(req, res){
   res.render("split",{listItems:user_arr});
+})
+
+app.get("/discount",function(req,res){
+  username = req.user.username;
+
+  if(req.isAuthenticated()){
+    User.findOne({username:req.user.username},function(err,foundList){
+
+      res.render("discount", {username:username,oldListItems:foundList.acceptDiscount,newListItems:foundList.requestDiscount});
+
+      })
+  }
+  else{
+    res.redirect("/Sign-in");
+  }
 })
 
 app.post("/Sign-in",function(req,res,next){
@@ -330,7 +347,142 @@ app.post("/Submit", function(req, res){
 })
 
 
+app.post("/discount",function(req, res){
+  let flag = 1;
+  const id=req.user._id;
+  const unique = uuidv4();
+  let isTrasactionPresent = 0;
+  const store = req.body.list;
 
+  if (store==="request"){
+    User.findOne({username:req.body.username},function(err,foundList){
+
+      if(foundList){
+
+        if(foundList.length != 0){
+
+          User.findOne({_id:id},function(err, foundLis){
+
+            for(let i = 0;i<foundList.recieve.length;i++){
+
+              if(foundList.recieve[i].paymentContext === req.body.paymentContext){
+                isTrasactionPresent = 1;
+                break;
+              }
+            }
+
+            if(isTrasactionPresent === 1){
+              tempitem = new Item({
+                username:foundLis.username,
+                paymentContext:req.body.paymentContext,
+                uniqueID:unique,
+                amount:req.body.amount
+              })
+              foundList.acceptDiscount.push(tempitem);
+              foundList.save();
+
+              User.findOne({username:req.user.username},function(err,foundList){
+                if(foundList){
+
+                  if(foundList.length != 0){
+
+                    tempitem.username = req.body.username;
+                    foundList.requestDiscount.push(tempitem);
+                    foundList.save();
+                  }
+                }
+
+                })
+            }
+
+          })
+
+        }
+      }
+
+      })
+
+    res.redirect("/discount");
+  }
+})
+
+app.post("/modify",function(req, res){
+  let s = req.body.list;
+  const del1 = req.user.username;
+  const count = req.body.count;
+  let unique = "";
+  let flag = 0;
+  if(s[0]==='1') flag = 1;
+  const del2 = s.substring(1);
+  let pc = "";
+
+  User.findOne({username:del1},function(err,foundUser){
+    if(err){
+      console.log(err);
+    }
+    else{
+      unique = foundUser.acceptDiscount[count].uniqueID;
+      pc = foundUser.acceptDiscount[count].paymentContext;
+      foundUser.acceptDiscount.splice(count,1);
+
+      if(flag === 1){
+        let i = -1;
+        for(i = 0;i<foundUser.recieve.length;i++){
+          if(foundUser.recieve[i].paymentContext === pc){
+            break;
+          }
+        }
+
+        if(i != -1){
+          foundUser.recieve.splice(i,1);
+          foundUser.update();
+        }
+      }
+
+      foundUser.save();
+    }
+  })
+  User.findOne({username:del2},function(err,foundUser){
+    if (foundUser){
+
+      if(err){
+        console.log(err);
+      }
+      else{
+        let i = -1;
+
+        for(i = 0;i<foundUser.requestDiscount.length;i++){
+
+          if(foundUser.requestDiscount[i].uniqueID === unique){
+            break;
+          }
+        }
+
+        if(i != -1){
+          foundUser.requestDiscount.splice(i,1);
+        }
+
+        if(flag === 1){
+          let j = -1;
+          for(j = 0;j<foundUser.pay.length;j++){
+            if(foundUser.pay[j].paymentContext === pc){
+              break;
+            }
+          }
+
+          if(j != -1){
+            foundUser.pay.splice(i,1);
+            foundUser.update();
+          }
+        }
+
+        foundUser.save();
+      }
+    }
+  })
+
+  res.redirect("/discount");
+})
 
 
 

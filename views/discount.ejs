@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Discount</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/dashboard.css">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <!-- navbar -->
+  <section id="navbar">
+
+    <nav class="navbar navbar-expand-lg navbar-light" style=" background: linear-gradient(to right, #035aa6, #0062E6);;">
+      <span class="navbar-brand mb-0 h1" style="color:white;"><%= username %></span>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse topnav-right " id="navbarNav">
+        <!-- ml-auto alligns all elements towards right of the screen -->
+        <ul class="nav navbar-nav ml-auto">
+          <li class="nav-item active ">
+            <a role="button" class="btn btn-outline-light" href="/Split" style="padding-right:15px; padding-left:15px; ">Split bill</a>
+          </li>
+          <li class="nav-item">
+            <a role="button" class="btn btn-outline-light" href="/Log-out" style="width:88px;">Log out</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </section>
+
+
+  <section id="accountings">
+    <div id="heading" class="box less-pad">
+      <h1 class="head ">Bargaining Corner</h1>
+    </div>
+
+    <div class="container-fluid" style="padding-left:5%;padding-right:5%">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="box acc-box item-1" id="heading">
+            <h1 class="head"> Accept Discount Request </h1>
+          </div>
+
+
+
+
+          <div >
+            <%let count = -1;%>
+            <% oldListItems.forEach(function(item){%>
+              <%count++;%>
+            <form class="" action="/modify" method="post">
+              <div class="item-final item-1">
+                <input class="checkbox" type="checkbox" name="list" value="0<%= item.username %>" onChange="this.form.submit()">
+                <p class="username"> <%= item.username %></p>
+                <p class="paymentContext"> <%= item.paymentContext %></p>
+                <p class="amount"> <%= item.amount %> </p>
+                <button class="acc-btn" type="submit" name="list" value="1<%= item.username %>">&#10003;</button>
+              </div>
+              <input type="hidden" name="action" value="pay">
+              <input type="hidden" name="count" value="<%= count %>">
+            </form>
+            <% })  %>
+
+          </div>
+
+
+
+        </div>
+        <div class="col-lg-6">
+          <div class="box acc-box item-2" id="heading">
+            <h1 class="head"> Register Discount Request </h1>
+          </div>
+
+          <div >
+            <%let coun = -1;%>
+            <% newListItems.forEach(function(item){%>
+              <%coun++;%>
+            <form action="/delete" method="post">
+              <div class="item-final item-2">
+                <p class="username"> <%= item.username %></p>
+                <p class="paymentContext"> <%= item.paymentContext %></p>
+                <p class="amount"> <%= item.amount %> </p>
+              </div>
+              <input type="hidden" name="action" value="recieve">
+              <input type="hidden" name="count" value="<%= coun %>">
+            </form>
+            <% })  %>
+
+
+
+
+            <form class="pad" action="/discount" method="post">
+              <div class="item item-2">
+                  <input type="text" name="username" value="" placeholder="Username">
+                  <input type="text" name="amount" value="" placeholder="Amount" autocomplete="off">
+              </div>
+              <div class="item item-2">
+                <input type="text" name="paymentContext" placeholder="Payment Context" autocomplete="off">
+                <button class="acc-btn" type="submit" name="list" value="request">+</button>
+              </div>
+
+            </form>
+
+          </div>
+
+
+
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+</body>
+
+</html>

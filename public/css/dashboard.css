@@ -87,6 +87,7 @@ form.item {
 }
 .acc-btn {
   margin-left: 10px;
+  margin-right: 5px;
   min-height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -214,6 +215,7 @@ p {
 
   .acc-btn {
     margin-left: 1px;
+    margin-right: 5px;
     min-height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -260,11 +262,13 @@ p {
     width: 80px;
     margin-bottom: 0;
   }
+
   .paymentContext{
     width: 300px;
     font-size: 15px;
     margin-bottom: 0;
   }
+
   .amount{
     font-size: 15px;
     width: 70px;
