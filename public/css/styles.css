@@ -1,0 +1,152 @@
+/* Navbar */
+#navbar{
+  font-family: 'helvetica neue';
+}
+.nav-img{
+  border-radius: 50%;
+}
+
+.navbar-header{
+  margin-left:5px;
+  width:100%;
+}
+.btn-outline-primary{
+  color: #212529;
+}
+.btn0{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (max-width: 576px) {
+  .nav-item{
+    margin-top: 10px;
+  }
+}
+@media (min-width: 992px) {
+  .nav-item{
+    margin-right: 10px;
+  }
+ }
+
+/* home */
+#home{
+  background: linear-gradient(to right, #0062E6, #33AEFF);
+  text-align: center;
+  font-family: 'helvetica neue';
+}
+
+  #home{
+    height: 15%;
+    padding: 10%;
+  }
+  .content{
+    margin: 10%;
+    color: #ece8d9;
+  }
+  .content1{
+    margin-top: 5%;
+    font-size: 2rem;
+  }
+  .home-h1{
+    font-size: 3rem;
+  }
+  .btn1{
+    margin-right: 10px;
+  }
+
+  @media (max-width: 576px) {
+    .home-row{
+      margin-top: 15%;
+    }
+    .home-col{
+      margin-top: 9%;
+    }
+    .content{
+      margin-top: 10%;
+      margin-left: 2%;
+      margin-right: 2%;
+    }
+    .home-h1{
+      font-size: 1.8rem;
+    }
+    .content1{
+      font-size: 1.2rem;
+      margin-top: 10%;
+    }
+    .buttons{
+      padding-top: 5%;
+    }
+  }
+
+  /* features */
+
+
+  .feature1{
+    text-align: center;
+    background-color: #00a1ab;
+    height: 700px;
+  }
+  @media (max-width: 576px) {
+    .feature1{
+      text-align: center;
+      background-color: #00a1ab;
+      height: 6%;
+      padding-bottom: 10%;
+    }
+  }
+
+  .feature2{
+    text-align: center;
+    background-color: #00a8cc;
+    height:700px;
+  }
+  .f-head{
+    font-size: 2rem;
+    font-family: 'helvetica neue';
+  }
+  .copyright{
+    margin-top: 1%;
+  }
+  @media (max-width: 576px) {
+    .feature2{
+      text-align: center;
+      background-color:#00a8cc;
+      height: 6%;
+      padding-bottom: 10%;
+    }
+    .f-head{
+      font-size: 1.5rem;
+      font-family: 'helvetica neue';
+    }
+    .copyright{
+      margin-top: 5%;
+    }
+
+  }
+
+  .image img {
+    margin-top: 17%;
+    width: 60%;
+    height: auto;
+}
+.feature-image{
+  border-radius: 20%;
+}
+
+.f-content{
+  margin-top: 10%;
+  padding-left: 17%;
+  padding-right: 17%;
+  color: #ece8d9;
+}
+
+
+/* features */
+
+#footer{
+  text-align: center;
+  background: linear-gradient(to right, #035aa6, #0062E6);;
+  padding-top: 4%;
+  padding-bottom: 2%;
+  font-family: 'helvetica neue';
+}
